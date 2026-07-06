@@ -1,95 +1,54 @@
-# Cars 15 - Luxury Car Dealership Website
+# Luxury Car Inventory & Finance Platform
 
-A world-class, fully responsive car dealership website for Surya Cars, specializing in used luxury vehicles.
+A responsive car inventory platform built with **Next.js, React, TypeScript, and Tailwind CSS**. The project presents premium vehicle listings with filtering, detail pages, enquiry flows, and an EMI calculator for finance estimates.
 
-## 🚗 Features
+## Live Demo
 
-- **Luxury Design**: Elegant, high-contrast design with black, silver, and metallic red accents
-- **Responsive**: Fully responsive design optimized for mobile, tablet, and desktop
-- **Car Inventory**: Browse and filter luxury cars (BMW, Jaguar, Mini, Rolls-Royce)
-- **EMI Calculator**: Interactive EMI calculator with animated results
-- **Car Details**: Detailed car pages with image galleries and specifications
-- **Contact Form**: Enquiry form with Google Maps integration
-- **SEO Optimized**: Meta tags and JSON-LD schema for car listings
-- **Animations**: Smooth page transitions using Framer Motion
-- **WhatsApp Integration**: Floating WhatsApp button for instant contact
+[cars15.vercel.app](https://cars15.vercel.app/)
 
-## 🛠️ Tech Stack
+## Features
 
-- **Frontend**: Next.js 14, React 18, TypeScript
-- **Styling**: Tailwind CSS
-- **Animations**: Framer Motion
-- **Icons**: Lucide React
-- **Notifications**: React Hot Toast
-- **Images**: Next.js Image Optimization with Unsplash/Pexels
+- Responsive inventory browsing for desktop and mobile.
+- Search, filtering, and sorting across vehicle listings.
+- Vehicle detail pages with specifications and enquiry actions.
+- EMI calculator for monthly repayment estimates.
+- Contact and about pages for dealership-style presentation.
+- WhatsApp contact entry point for quick enquiries.
 
-## 📦 Installation
+## Tech Stack
 
-1. Install dependencies:
+| Area | Technology |
+| --- | --- |
+| Framework | Next.js 14, React |
+| Language | TypeScript |
+| Styling | Tailwind CSS |
+| UI | Framer Motion, Lucide React |
+| Deployment | Vercel |
+
+## Run Locally
+
 ```bash
 npm install
-```
-
-2. Run the development server:
-```bash
 npm run dev
 ```
 
-3. Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-## 🏗️ Build
-
-To create a production build:
+Build for production:
 
 ```bash
 npm run build
 npm start
 ```
 
-## 📁 Project Structure
+## Project Structure
 
-```
-cars-15/
-├── app/              # Next.js app directory
-│   ├── layout.tsx    # Root layout
-│   ├── page.tsx      # Home page
-│   ├── inventory/    # Inventory page
-│   ├── cars/[id]/    # Car details pages
-│   ├── contact/      # Contact page
-│   ├── emi-calculator/ # EMI calculator page
-│   └── about/        # About page
-├── components/       # Reusable React components
-├── data/            # Car data and constants
-├── types/           # TypeScript type definitions
-└── public/          # Static assets
+```text
+app/          App Router pages
+components/   Reusable UI components
+data/         Vehicle data
+types/        TypeScript models
 ```
 
-## 🎨 Design System
+## Author
 
-- **Colors**:
-  - Luxury Black: `#0a0a0a`
-  - Silver: `#c0c0c0`
-  - Metallic Red: `#dc2626`
-  
-- **Fonts**:
-  - Sans: Poppins
-  - Display: Playfair Display
-
-## 📞 Contact Information
-
-- **Dealer**: Surya Cars
-- **Phone**: +91 9150357320
-- **Email**: suryakannan32123@gmail.com
-- **Location**: Chennai / Veerabayangaram, India
-
-## 🚀 Deployment
-
-This website can be deployed to:
-- Vercel (recommended for Next.js)
-- Netlify
-- Any Node.js hosting platform
-
-## 📝 License
-
-© 2025 Cars 15 | Powered by Surya Cars
-
+Surya Prakash K S  
+[GitHub](https://github.com/SURYAPRAKASH123671) · [LinkedIn](https://www.linkedin.com/in/surya-prakash-k-s-25b177242)
