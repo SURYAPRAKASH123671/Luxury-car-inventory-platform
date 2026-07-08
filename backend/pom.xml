@@ -15,7 +15,7 @@
   <artifactId>cars15-backend</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>Cars 15 Backend</name>
-  <description>Spring Boot backend for Cars 15 luxury car marketplace</description>
+  <description>Spring Boot backend for Cars 15 Indian used car marketplace</description>
 
   <properties>
     <java.version>17</java.version>

@@ -68,7 +68,7 @@ export default function EMICalculatorPage() {
             </h1>
           </div>
           <p className="text-luxury-silver text-lg">
-            Calculate your monthly EMI for luxury car financing
+            Calculate your monthly EMI for Indian used-car financing
           </p>
         </motion.div>
 

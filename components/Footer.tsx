@@ -14,7 +14,7 @@ export default function Footer() {
               Cars 15
             </h3>
             <p className="text-luxury-silver text-sm">
-              Your trusted destination for certified pre-owned luxury vehicles.
+              Your trusted destination for verified Indian used cars.
             </p>
           </div>
 

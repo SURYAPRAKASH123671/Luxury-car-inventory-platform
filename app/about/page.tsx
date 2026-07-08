@@ -22,8 +22,8 @@ export default function About() {
             About Cars 15
           </h1>
           <p className="text-luxury-silver text-lg max-w-2xl mx-auto">
-            Your trusted destination for certified pre-owned luxury vehicles in
-            India
+            Your trusted destination for verified Indian used cars across
+            Hatchback, Sedan, SUV, and MPV categories
           </p>
         </motion.div>
 
@@ -37,13 +37,13 @@ export default function About() {
             <h2 className="text-2xl font-bold mb-4">Our Story</h2>
             <p className="text-luxury-silver leading-relaxed mb-4">
               Cars 15, powered by Surya Cars, was founded with a vision to make
-              luxury car ownership accessible to discerning customers across
-              India. We specialize in premium pre-owned vehicles from world-renowned
-              brands like BMW, Jaguar, Mini, and Rolls-Royce.
+              used-car buying clearer and more trustworthy for Indian customers.
+              We focus on familiar India-market cars from brands like Maruti
+              Suzuki, Hyundai, Tata, Honda, Renault, Kia, Toyota, and Mahindra.
             </p>
             <p className="text-luxury-silver leading-relaxed">
               Our commitment to excellence, transparency, and customer satisfaction
-              has made us a trusted name in the luxury car market. Every vehicle
+              has made us a trusted name in the used-car market. Every vehicle
               in our inventory undergoes rigorous inspection and certification to
               ensure the highest quality standards.
             </p>
@@ -58,13 +58,13 @@ export default function About() {
             <h2 className="text-2xl font-bold mb-4">Our Mission</h2>
             <p className="text-luxury-silver leading-relaxed mb-4">
               To provide customers with the finest selection of certified
-              pre-owned luxury vehicles while maintaining the highest standards
+              pre-owned Indian cars while maintaining the highest standards
               of quality, service, and transparency.
             </p>
             <p className="text-luxury-silver leading-relaxed">
-              We believe that luxury should be accessible, and we work tirelessly
-              to offer competitive pricing, flexible financing options, and
-              exceptional customer service to make your dream car a reality.
+              We help buyers compare practical body styles, understand ownership
+              costs, and choose the right car with competitive pricing, flexible
+              financing options, and helpful customer support.
             </p>
           </motion.div>
         </div>

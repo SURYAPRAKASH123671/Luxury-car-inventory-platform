@@ -1,6 +1,8 @@
 package com.cars15.config;
 
-import com.cars15.domain.*;
+import com.cars15.domain.AppUser;
+import com.cars15.domain.Car;
+import com.cars15.domain.UserRole;
 import com.cars15.repository.CarRepository;
 import com.cars15.repository.UserRepository;
 import java.math.BigDecimal;
@@ -36,127 +38,35 @@ public class DataSeeder {
                 buyer.setRole(UserRole.USER);
                 userRepository.save(buyer);
             }
-            if (carRepository.count() == 0) {
-                carRepository.save(car(
-                        "1", "BMW", "3 Series", "330i M Sport", 2021, 25000,
-                        "Automatic", "Petrol", "Sedan", "Chennai", 1840, 18,
-                        "4500000", "2.0L Turbo Petrol", "258 HP", "400 Nm",
-                        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/BMW_3_SERIES_SEDAN_%28G20%29_China.jpg/1280px-BMW_3_SERIES_SEDAN_%28G20%29_China.jpg",
-                        List.of("M Sport package", "Sunroof", "Digital cockpit", "Reverse camera", "6 airbags")));
-                carRepository.save(car(
-                        "2", "BMW", "5 Series", "530d Luxury Line", 2020, 35000,
-                        "Automatic", "Diesel", "Sedan", "Chennai", 2210, 24,
-                        "6500000", "3.0L Turbo Diesel", "265 HP", "620 Nm",
-                        "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/BMW_5_SERIES_%28G30%29_HONG_KONG.jpg/1280px-BMW_5_SERIES_%28G30%29_HONG_KONG.jpg",
-                        List.of("Panoramic sunroof", "Leather seats", "Gesture control", "Ambient lighting", "Adaptive suspension")));
-                carRepository.save(car(
-                        "3", "Jaguar", "XF", "Portfolio 25t", 2022, 18000,
-                        "Automatic", "Petrol", "Sedan", "Coimbatore", 1650, 15,
-                        "5500000", "2.0L Turbo Petrol", "247 HP", "365 Nm",
-                        "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Jaguar_XF_%28X260%29_1999cc_diesel_registered_November_2015.JPG/1280px-Jaguar_XF_%28X260%29_1999cc_diesel_registered_November_2015.JPG",
-                        List.of("Meridian audio", "Memory seats", "Lane assist", "Touch Pro Duo", "Extended warranty")));
-                carRepository.save(car(
-                        "4", "Mini", "Cooper S", "JCW Edition", 2021, 22000,
-                        "Automatic", "Petrol", "Hatchback", "Bengaluru", 1320, 12,
-                        "3800000", "2.0L Turbo Petrol", "192 HP", "280 Nm",
-                        "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/MINI_F56_Hatch_Cooper_S_Chili_Red_%282%29.jpg/1280px-MINI_F56_Hatch_Cooper_S_Chili_Red_%282%29.jpg",
-                        List.of("JCW body kit", "Sport seats", "Harman Kardon audio", "Paddle shifters", "LED headlamps")));
-                carRepository.save(car(
-                        "5", "Rolls-Royce", "Ghost", "Series II", 2020, 15000,
-                        "Automatic", "Petrol", "Sedan", "Hyderabad", 3090, 9,
-                        "150000000", "6.6L Twin-Turbo V12", "563 HP", "780 Nm",
-                        "https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Rolls-Royce_Ghost_I_Series_II_Black_%2811%29.jpg/1280px-Rolls-Royce_Ghost_I_Series_II_Black_%2811%29.jpg",
-                        List.of("Starlight headliner", "Bespoke cabin", "Rear-seat theatre", "Soft-close doors", "V12 refinement")));
-                carRepository.save(car(
-                        "6", "Mercedes-Benz", "E-Class", "E 220d Exclusive", 2021, 28000,
-                        "Automatic", "Diesel", "Sedan", "Delhi NCR", 2420, 28,
-                        "5900000", "2.0L Diesel", "194 HP", "400 Nm",
-                        "https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/MERCEDES-BENZ_E-CLASS_%28W213%29_China.jpg/1280px-MERCEDES-BENZ_E-CLASS_%28W213%29_China.jpg",
-                        List.of("Burmester audio", "Widescreen cockpit", "Rear recline", "Ambient lighting", "ADAS")));
-                carRepository.save(car(
-                        "7", "Audi", "Q7", "55 TFSI Technology", 2022, 19000,
-                        "Automatic", "Petrol", "SUV", "Mumbai", 2010, 21,
-                        "8400000", "3.0L Turbo Petrol", "335 HP", "500 Nm",
-                        "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/2025_Audi_Q7_%284M%29_DSC_7473.jpg/1280px-2025_Audi_Q7_%284M%29_DSC_7473.jpg",
-                        List.of("Quattro AWD", "7 seats", "Virtual cockpit", "Matrix LED", "Air suspension")));
-                carRepository.save(car(
-                        "8", "Toyota", "Fortuner", "4x4 AT Legender", 2022, 32000,
-                        "Automatic", "Diesel", "SUV", "Kochi", 2790, 36,
-                        "4200000", "2.8L Diesel", "201 HP", "500 Nm",
-                        "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Toyota_Fortuner_India.jpg/1280px-Toyota_Fortuner_India.jpg",
-                        List.of("4x4", "Ventilated seats", "7 seats", "Hill descent", "Toyota reliability")));
-                carRepository.save(car(
-                        "9", "Maruti Suzuki", "Swift", "ZXI Plus AMT", 2021, 41000,
-                        "AMT", "Petrol", "Hatchback", "Chennai", 1880, 44,
-                        "720000", "1.2L Petrol", "89 HP", "113 Nm",
-                        "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Maruti_Suzuki_Swift_2092.JPG/1280px-Maruti_Suzuki_Swift_2092.JPG",
-                        List.of("AMT", "Touchscreen", "Dual airbags", "Rear camera", "Great mileage")));
-                carRepository.save(car(
-                        "10", "Hyundai", "Creta", "SX(O) Turbo DCT", 2022, 26000,
-                        "Automatic", "Petrol", "SUV", "Bengaluru", 2630, 39,
-                        "1740000", "1.4L Turbo Petrol", "138 HP", "242 Nm",
-                        "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=1200&q=80",
-                        List.of("Panoramic sunroof", "Ventilated seats", "DCT", "Connected car tech", "Bose audio")));
-                carRepository.save(car(
-                        "11", "Tata", "Nexon EV", "XZ Plus Lux", 2022, 24000,
-                        "Automatic", "Electric", "SUV", "Pune", 2190, 31,
-                        "1290000", "Permanent Magnet Motor", "127 HP", "245 Nm",
-                        "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=1200&q=80",
-                        List.of("Electric drivetrain", "Sunroof", "Connected tech", "Fast charging", "Low running cost")));
-                carRepository.save(car(
-                        "12", "Kia", "Carnival", "Limousine Plus", 2021, 38000,
-                        "Automatic", "Diesel", "MPV", "Hyderabad", 1470, 19,
-                        "3250000", "2.2L Diesel", "197 HP", "440 Nm",
-                        "https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=1200&q=80",
-                        List.of("Captain seats", "Powered doors", "Tri-zone AC", "Rear entertainment", "7 seats")));
-                carRepository.save(car(
-                        "13", "Toyota", "Innova Crysta", "2.4 ZX AT", 2020, 68000,
-                        "Automatic", "Diesel", "MPV", "Madurai", 2540, 52,
-                        "2250000", "2.4L Diesel", "148 HP", "360 Nm",
-                        "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=1200&q=80",
-                        List.of("Captain seats", "Rear AC", "Toyota service", "7 seats", "High resale")));
-                carRepository.save(car(
-                        "14", "Mahindra", "Thar", "LX 4x4 Hard Top", 2021, 30000,
-                        "Manual", "Diesel", "Off-Roader", "Coimbatore", 3010, 47,
-                        "1650000", "2.2L Diesel", "130 HP", "300 Nm",
-                        "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=1200&q=80",
-                        List.of("4x4", "Hard top", "All-terrain tyres", "Touchscreen", "Adventure ready")));
-                carRepository.save(car(
-                        "15", "Force", "Traveller", "3350 Super", 2019, 95000,
-                        "Manual", "Diesel", "Van", "Salem", 980, 11,
-                        "1450000", "2.6L Diesel", "90 HP", "250 Nm",
-                        "https://images.unsplash.com/photo-1556122071-e404eaedb77f?w=1200&q=80",
-                        List.of("12 seats", "High roof", "Rear AC", "Fleet ready", "Diesel economy")));
-                carRepository.save(car(
-                        "16", "Mercedes-Benz", "V-Class", "Expression", 2020, 42000,
-                        "Automatic", "Diesel", "Luxury Van", "Mumbai", 1190, 13,
-                        "7200000", "2.1L Diesel", "161 HP", "380 Nm",
-                        "https://images.unsplash.com/photo-1549924231-f129b911e442?w=1200&q=80",
-                        List.of("Captain seats", "Sliding doors", "Ambient lighting", "Rear AC", "Executive cabin")));
-                carRepository.save(car(
-                        "17", "Land Rover", "Range Rover Evoque", "R-Dynamic SE", 2021, 27000,
-                        "Automatic", "Diesel", "SUV", "Delhi NCR", 1740, 17,
-                        "6100000", "2.0L Diesel", "201 HP", "430 Nm",
-                        "https://images.unsplash.com/photo-1539799139339-50c5fe1e2b1b?w=1200&q=80",
-                        List.of("Terrain response", "Panoramic roof", "Meridian audio", "Digital cluster", "AWD")));
-                carRepository.save(car(
-                        "18", "Porsche", "Cayenne", "Base", 2019, 33000,
-                        "Automatic", "Petrol", "SUV", "Bengaluru", 2110, 14,
-                        "8900000", "3.0L Turbo Petrol", "335 HP", "450 Nm",
-                        "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1200&q=80",
-                        List.of("Sport Chrono", "Air suspension", "BOSE audio", "AWD", "Performance brakes")));
-                carRepository.save(car(
-                        "19", "Honda", "City", "ZX CVT", 2021, 36000,
-                        "Automatic", "Petrol", "Sedan", "Trichy", 1380, 29,
-                        "1220000", "1.5L Petrol", "119 HP", "145 Nm",
-                        "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=1200&q=80",
-                        List.of("CVT", "Sunroof", "Lane watch", "LED headlamps", "Rear camera")));
-                carRepository.save(car(
-                        "20", "Toyota", "Hilux", "High 4x4 AT", 2023, 14000,
-                        "Automatic", "Diesel", "Pickup", "Jaipur", 1040, 10,
-                        "3650000", "2.8L Diesel", "201 HP", "500 Nm",
-                        "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=1200&q=80",
-                        List.of("4x4", "Load bed", "Hill assist", "Diesel torque", "Adventure utility")));
+            boolean shouldRefreshDemoCars =
+                    carRepository.count() == 0
+                            || !carRepository.existsById("21")
+                            || !carRepository.findByBrandIgnoreCase("BMW").isEmpty();
+            if (shouldRefreshDemoCars) {
+                carRepository.deleteAll();
+                List.of(
+                        car("1", "Maruti Suzuki", "Alto K10", "VXI Plus", 2021, 32000, "Manual", "Petrol", "Hatchback", "Chennai", 2150, 58, "390000", "1.0L K-Series Petrol", "66 HP", "89 Nm", 5, "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Maruti_Suzuki_Alto_K10.jpg/1200px-Maruti_Suzuki_Alto_K10.jpg", List.of("Low running cost", "Compact city size", "Power steering", "Dual airbags", "Maruti service network")),
+                        car("2", "Maruti Suzuki", "Wagon R", "VXI(O)", 2020, 41000, "Manual", "Petrol", "Hatchback", "Madurai", 1980, 44, "480000", "1.2L Petrol", "82 HP", "113 Nm", 5, "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/2020_Maruti_Suzuki_Wagon_R_VXi_%28O%29_%28India%29_front_view.png/1200px-2020_Maruti_Suzuki_Wagon_R_VXi_%28O%29_%28India%29_front_view.png", List.of("Tall-boy cabin", "Rear parking sensors", "Dual airbags", "Fuel efficient", "Easy resale")),
+                        car("3", "Maruti Suzuki", "Swift", "ZXI Plus AMT", 2021, 38000, "AMT", "Petrol", "Hatchback", "Coimbatore", 2610, 63, "720000", "1.2L Petrol", "89 HP", "113 Nm", 5, "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Maruti_Suzuki_Swift_2092.JPG/1200px-Maruti_Suzuki_Swift_2092.JPG", List.of("AMT", "Touchscreen", "Rear camera", "LED DRLs", "Great mileage")),
+                        car("4", "Maruti Suzuki", "Baleno", "Alpha", 2022, 24000, "Manual", "Petrol", "Hatchback", "Bengaluru", 2340, 47, "860000", "1.2L Petrol", "89 HP", "113 Nm", 5, "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/2022_Maruti_Suzuki_Baleno_Alpha_%28India%29_front_view.jpg/1200px-2022_Maruti_Suzuki_Baleno_Alpha_%28India%29_front_view.jpg", List.of("360 camera", "HUD", "LED projector lamps", "SmartPlay Pro", "6 airbags")),
+                        car("5", "Hyundai", "i20", "Asta(O) Diesel", 2021, 36000, "Manual", "Diesel", "Hatchback", "Salem", 1760, 32, "930000", "1.5L Diesel", "99 HP", "240 Nm", 5, "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/2021_Hyundai_i20_N_Line_%28BI3%3B_India%29_front_view.png/1200px-2021_Hyundai_i20_N_Line_%28BI3%3B_India%29_front_view.png", List.of("Sunroof", "Bose audio", "Cruise control", "Connected tech", "Premium cabin")),
+                        car("6", "Maruti Suzuki", "Dzire", "VXI VVT", 2020, 45000, "Manual", "Petrol", "Sedan", "Trichy", 2290, 51, "680000", "1.2L Petrol", "82 HP", "113 Nm", 5, "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Maruti_Suzuki_Dzire_VXi_VVT.JPG/1200px-Maruti_Suzuki_Dzire_VXi_VVT.JPG", List.of("Large boot", "Rear AC vents", "Dual airbags", "ABS", "High mileage")),
+                        car("7", "Honda", "Amaze", "VX CVT", 2021, 29000, "Automatic", "Petrol", "Sedan", "Chennai", 1510, 28, "820000", "1.2L Petrol", "89 HP", "110 Nm", 5, "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Honda_Amaze_VX_India.jpg/1200px-Honda_Amaze_VX_India.jpg", List.of("CVT automatic", "Rear camera", "Paddle shifters", "Spacious boot", "Honda reliability")),
+                        car("8", "Honda", "City", "ZX i-VTEC CVT", 2022, 26000, "Automatic", "Petrol", "Sedan", "Kochi", 2190, 39, "1380000", "1.5L Petrol", "119 HP", "145 Nm", 5, "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/2022_Honda_City_ZX_i-VTEC_%28India%29_front_view.jpg/1200px-2022_Honda_City_ZX_i-VTEC_%28India%29_front_view.jpg", List.of("LaneWatch camera", "Sunroof", "LED headlamps", "CVT", "Connected car tech")),
+                        car("9", "Hyundai", "Verna", "SX(O) Diesel", 2020, 42000, "Manual", "Diesel", "Sedan", "Pune", 1640, 25, "1150000", "1.5L Diesel", "113 HP", "250 Nm", 5, "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/2020_Hyundai_Verna_SX%28O%29_1.5_Diesel_front_view_%28India%29.png/1200px-2020_Hyundai_Verna_SX%28O%29_1.5_Diesel_front_view_%28India%29.png", List.of("Ventilated seats", "Sunroof", "Wireless charging", "BlueLink", "Strong diesel torque")),
+                        car("10", "Maruti Suzuki", "Ciaz", "Alpha", 2019, 52000, "Manual", "Petrol", "Sedan", "Delhi NCR", 1210, 18, "890000", "1.5L Petrol Hybrid", "103 HP", "138 Nm", 5, "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Maruti_Ciaz_2017.jpg/1200px-Maruti_Ciaz_2017.jpg", List.of("Smart hybrid", "Spacious rear seat", "Leatherette seats", "Touchscreen", "Large boot")),
+                        car("11", "Renault", "Duster", "RXZ 1.3 Turbo CVT", 2020, 48000, "Automatic", "Petrol", "SUV", "Coimbatore", 1880, 31, "990000", "1.3L Turbo Petrol", "154 HP", "254 Nm", 5, "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/2020_Renault_Duster_RXZ_1.3_Turbo_CVT_%28India%29_front_view.png/1200px-2020_Renault_Duster_RXZ_1.3_Turbo_CVT_%28India%29_front_view.png", List.of("Turbo petrol", "CVT", "Hill start assist", "High ground clearance", "Tough suspension")),
+                        car("12", "Hyundai", "Creta", "SX(O) CRDi", 2021, 31000, "Automatic", "Diesel", "SUV", "Bengaluru", 2940, 56, "1720000", "1.5L Diesel", "113 HP", "250 Nm", 5, "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/2021_Hyundai_Creta_SX%28O%29_CRDi_%28India%29_front_view.jpg/1200px-2021_Hyundai_Creta_SX%28O%29_CRDi_%28India%29_front_view.jpg", List.of("Panoramic sunroof", "Ventilated seats", "Bose audio", "Connected tech", "Air purifier")),
+                        car("13", "Tata", "Nexon EV", "XZ Plus Lux", 2022, 22000, "Automatic", "Electric", "SUV", "Hyderabad", 2320, 36, "1290000", "Permanent Magnet Motor", "127 HP", "245 Nm", 5, "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/2020_Tata_Nexon_EV_%28India%29_front_view.png/1200px-2020_Tata_Nexon_EV_%28India%29_front_view.png", List.of("EV drivetrain", "Sunroof", "Fast charging", "Connected tech", "Low running cost")),
+                        car("14", "Maruti Suzuki", "Brezza", "ZXI Plus", 2022, 21000, "Manual", "Petrol", "SUV", "Madurai", 2070, 34, "1120000", "1.5L Petrol", "102 HP", "137 Nm", 5, "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/2022_Maruti_Suzuki_Brezza_ZXi%2B_%28India%29_front_view_04.png/1200px-2022_Maruti_Suzuki_Brezza_ZXi%2B_%28India%29_front_view_04.png", List.of("Sunroof", "360 camera", "HUD", "6 airbags", "Maruti service support")),
+                        car("15", "Kia", "Seltos", "HTX Plus", 2024, 9000, "Automatic", "Diesel", "SUV", "Chennai", 2460, 41, "1890000", "1.5L Diesel", "114 HP", "250 Nm", 5, "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Kia_Seltos_2024.jpg/1200px-Kia_Seltos_2024.jpg", List.of("ADAS", "Panoramic display", "Ventilated seats", "Bose audio", "Connected car tech")),
+                        car("16", "Mahindra", "Thar", "LX 4x4 Hard Top", 2021, 30000, "Manual", "Diesel", "SUV", "Salem", 3020, 49, "1650000", "2.2L Diesel", "130 HP", "300 Nm", 4, "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Mahindra_Thar_SUV_in_%22Red_Rage%22_color_at_Ashiana_Brahmanda%2C_East_Singbhum_India_%28Ank_Kumar%2C_Infosys_limited%29_02.jpg/1200px-Mahindra_Thar_SUV_in_%22Red_Rage%22_color_at_Ashiana_Brahmanda%2C_East_Singbhum_India_%28Ank_Kumar%2C_Infosys_limited%29_02.jpg", List.of("4x4", "Hard top", "Adventure tyres", "Hill descent", "Touchscreen")),
+                        car("17", "Toyota", "Fortuner", "4x4 AT Legender", 2022, 32000, "Automatic", "Diesel", "SUV", "Kochi", 2790, 36, "4200000", "2.8L Diesel", "201 HP", "500 Nm", 7, "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Toyota_Fortuner_India.jpg/1200px-Toyota_Fortuner_India.jpg", List.of("4x4", "Ventilated seats", "7 seats", "Hill descent", "Toyota reliability")),
+                        car("18", "Maruti Suzuki", "Ertiga", "ZXI Plus", 2021, 44000, "Manual", "Petrol", "MPV", "Trichy", 2420, 62, "980000", "1.5L Petrol", "103 HP", "138 Nm", 7, "https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Maruti_Suzuki_Ertiga%281%29.jpg/1200px-Maruti_Suzuki_Ertiga%281%29.jpg", List.of("7 seats", "Rear AC", "Smart hybrid", "Touchscreen", "Family-friendly cabin")),
+                        car("19", "Toyota", "Innova Crysta", "2.4 ZX AT", 2020, 68000, "Automatic", "Diesel", "MPV", "Madurai", 2540, 52, "2250000", "2.4L Diesel", "148 HP", "360 Nm", 7, "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Toyota_Innova_Crysta_2.4_Z_side.jpg/1200px-Toyota_Innova_Crysta_2.4_Z_side.jpg", List.of("Captain seats", "Rear AC", "Toyota service history", "7 seats", "High resale")),
+                        car("20", "Kia", "Carens", "Luxury Plus", 2024, 12000, "Automatic", "Diesel", "MPV", "Hyderabad", 1810, 29, "1880000", "1.5L Diesel", "114 HP", "250 Nm", 7, "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Kia_Carens_2024_Model.jpg/1200px-Kia_Carens_2024_Model.jpg", List.of("6 airbags", "Captain seats", "Rear AC vents", "Connected tech", "Sunroof")),
+                        car("21", "Renault", "Triber", "RXZ", 2021, 35000, "Manual", "Petrol", "MPV", "Puducherry", 1360, 23, "690000", "1.0L Petrol", "71 HP", "96 Nm", 7, "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Renault_Triber_%283%29.jpg/1200px-Renault_Triber_%283%29.jpg", List.of("Modular 7 seats", "Roof rails", "Touchscreen", "Rear AC vents", "Compact footprint")))
+                        .forEach(carRepository::save);
             }
         };
     }
@@ -178,6 +88,7 @@ public class DataSeeder {
             String engine,
             String power,
             String torque,
+            int seats,
             String image,
             List<String> features) {
         Car car = new Car();
@@ -196,11 +107,11 @@ public class DataSeeder {
         car.setPrice(new BigDecimal(price));
         car.setImage(image);
         car.setImages(List.of(image));
-        car.setDescription("Certified pre-owned luxury vehicle with verified documentation, inspection history, and finance support.");
+        car.setDescription("Verified Indian used car with inspection history, finance support, and ownership documents ready for review.");
         car.setEngine(engine);
         car.setPower(power);
         car.setTorque(torque);
-        car.setSeats(5);
+        car.setSeats(seats);
         car.setFeatures(features);
         return car;
     }

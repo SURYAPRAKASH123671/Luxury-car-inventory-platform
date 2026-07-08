@@ -8,7 +8,7 @@ import CarCard from "@/components/CarCard";
 import FilterBar from "@/components/FilterBar";
 import CompareTray from "@/components/CompareTray";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import { carsData } from "@/data/cars";
+import { bodyTypes, carsData } from "@/data/cars";
 import { api } from "@/lib/api";
 import { readJson, storageKeys } from "@/lib/storage";
 import { AuthSession, Car, FilterOptions, SortOption } from "@/types";
@@ -129,8 +129,36 @@ export default function Inventory() {
     return filtered;
   }, [cars, filters, sortOption]);
 
+  const categoryStats = useMemo(
+    () =>
+      bodyTypes.map((type) => ({
+        type,
+        count: cars.filter((car) => car.bodyType === type).length,
+      })),
+    [cars]
+  );
+
+  const groupedCars = useMemo(
+    () =>
+      bodyTypes
+        .map((type) => ({
+          type,
+          cars: filteredAndSortedCars.filter((car) => car.bodyType === type),
+        }))
+        .filter((group) => group.cars.length > 0),
+    [filteredAndSortedCars]
+  );
+
   const resetFilters = () => {
     setFilters({});
+  };
+
+  const selectBodyType = (type: string) => {
+    const selected = filters.bodyType?.includes(type);
+    setFilters({
+      ...filters,
+      bodyType: selected ? [] : [type],
+    });
   };
 
   const toggleWishlist = async (carId: string) => {
@@ -178,7 +206,7 @@ export default function Inventory() {
             Our Inventory
           </h1>
           <p className="text-luxury-silver text-lg">
-            Explore our premium collection of certified pre-owned luxury vehicles
+            Browse verified Indian used cars by Hatchback, Sedan, SUV, and MPV categories
           </p>
           <p className="text-luxury-silver mt-2">
             Showing {filteredAndSortedCars.length} car
@@ -199,6 +227,27 @@ export default function Inventory() {
                 <p className="text-sm text-luxury-silver">{label}</p>
               </div>
             ))}
+          </div>
+          <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
+            {categoryStats.map((category) => {
+              const isSelected = filters.bodyType?.includes(category.type);
+              return (
+                <button
+                  key={category.type}
+                  onClick={() => selectBodyType(category.type)}
+                  className={`rounded-lg border p-4 text-left transition-colors ${
+                    isSelected
+                      ? "border-luxury-metallic-red bg-luxury-metallic-red/15"
+                      : "border-luxury-silver/10 bg-luxury-dark-gray hover:border-luxury-metallic-red/50"
+                  }`}
+                >
+                  <p className="text-xl font-bold">{category.type}</p>
+                  <p className="text-sm text-luxury-silver">
+                    {category.count} Indian car{category.count !== 1 ? "s" : ""}
+                  </p>
+                </button>
+              );
+            })}
           </div>
         </motion.div>
 
@@ -229,16 +278,37 @@ export default function Inventory() {
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-            {filteredAndSortedCars.map((car) => (
-              <CarCard
-                key={car.id}
-                car={car}
-                isWishlisted={wishlistIds.includes(car.id)}
-                isCompared={compareIds.includes(car.id)}
-                onWishlistToggle={toggleWishlist}
-                onCompareToggle={toggleCompare}
-              />
+          <div className="mt-8 space-y-12">
+            {groupedCars.map((group) => (
+              <section key={group.type}>
+                <div className="mb-4 flex items-end justify-between gap-4 border-b border-luxury-silver/10 pb-3">
+                  <div>
+                    <h2 className="text-2xl font-semibold">{group.type}</h2>
+                    <p className="text-sm text-luxury-silver">
+                      {group.cars.length} matching Indian used car
+                      {group.cars.length !== 1 ? "s" : ""}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => selectBodyType(group.type)}
+                    className="rounded-md border border-luxury-silver/20 px-3 py-2 text-sm text-luxury-silver transition-colors hover:border-luxury-metallic-red hover:text-white"
+                  >
+                    {filters.bodyType?.includes(group.type) ? "Show all" : `View ${group.type}`}
+                  </button>
+                </div>
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  {group.cars.map((car) => (
+                    <CarCard
+                      key={car.id}
+                      car={car}
+                      isWishlisted={wishlistIds.includes(car.id)}
+                      isCompared={compareIds.includes(car.id)}
+                      onWishlistToggle={toggleWishlist}
+                      onCompareToggle={toggleCompare}
+                    />
+                  ))}
+                </div>
+              </section>
             ))}
           </div>
         )}

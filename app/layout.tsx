@@ -16,9 +16,9 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Cars 15 | Used BMW, Jaguar, Rolls-Royce in India | Pre-Owned Luxury Cars Chennai",
-  description: "Certified Pre-Owned Luxury Cars at Unbeatable Value. Explore BMW 3 Series, BMW 5 Series, Jaguar XF, Mini Cooper S, Rolls-Royce Ghost. Used BMW in India, Pre-Owned Luxury Cars Chennai.",
-  keywords: "used BMW India, pre-owned luxury cars Chennai, BMW 3 Series, BMW 5 Series, Jaguar XF, Mini Cooper S, Rolls-Royce Ghost, used luxury cars, certified pre-owned cars",
+  title: "Cars 15 | Verified Indian Used Cars | Hatchback, Sedan, SUV, MPV",
+  description: "Browse verified Indian used cars including Alto K10, Swift, Dzire, Ertiga, Duster, Creta, Innova Crysta, Fortuner, and more across Hatchback, Sedan, SUV, and MPV categories.",
+  keywords: "used cars India, Indian used cars, used hatchback, used sedan, used SUV, used MPV, Maruti Swift, Dzire, Ertiga, Duster, Innova Crysta",
 };
 
 export default function RootLayout({

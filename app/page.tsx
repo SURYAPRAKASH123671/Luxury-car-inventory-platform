@@ -12,9 +12,9 @@ import { carsData } from "@/data/cars";
 import { CheckCircle, Shield, DollarSign, Truck } from "lucide-react";
 
 const heroImages = [
-  "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=1920&q=80",
-  "https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=1920&q=80",
-  "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?w=1920&q=80",
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/2021_Hyundai_Creta_SX%28O%29_CRDi_%28India%29_front_view.jpg/1200px-2021_Hyundai_Creta_SX%28O%29_CRDi_%28India%29_front_view.jpg",
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Maruti_Suzuki_Ertiga%281%29.jpg/1200px-Maruti_Suzuki_Ertiga%281%29.jpg",
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Toyota_Innova_Crysta_2.4_Z_side.jpg/1200px-Toyota_Innova_Crysta_2.4_Z_side.jpg",
 ];
 
 export default function Home() {
@@ -46,7 +46,7 @@ export default function Home() {
             >
               <Image
                 src={img}
-                alt="Luxury Car"
+                alt="Indian used car"
                 fill
                 className="object-cover"
                 sizes="100vw"
@@ -79,7 +79,7 @@ export default function Home() {
             className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 sm:mb-8 px-2 sm:px-0"
             style={{ color: '#e5e5e5' }}
           >
-            Certified Pre-Owned Luxury Cars at Unbeatable Value
+            Verified Indian Used Cars Across Hatchback, Sedan, SUV, and MPV
           </p>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-2 sm:px-0">
             <Link
@@ -127,7 +127,7 @@ export default function Home() {
               Featured Models
             </h2>
             <p className="text-luxury-silver text-lg">
-              Discover our handpicked collection of luxury vehicles
+              Discover our handpicked collection of Indian used cars
             </p>
           </motion.div>
 
@@ -161,7 +161,7 @@ export default function Home() {
               Why Choose Us
             </h2>
             <p className="text-luxury-silver text-lg">
-              Your trusted partner in luxury car ownership
+              Your trusted partner for verified Indian used cars
             </p>
           </motion.div>
 

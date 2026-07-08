@@ -33,7 +33,7 @@ const emptyCar: Car = {
   price: 0,
   image: "https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=1200&q=80",
   images: [],
-  description: "Certified pre-owned luxury vehicle with verified documentation and finance support.",
+  description: "Verified Indian used car with inspection history, documents, and finance support.",
   features: [],
   specifications: {
     engine: "",
