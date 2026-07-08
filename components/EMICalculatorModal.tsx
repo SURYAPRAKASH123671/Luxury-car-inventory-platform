@@ -23,6 +23,7 @@ export default function EMICalculatorModal({
   const [emi, setEmi] = useState(0);
   const [totalInterest, setTotalInterest] = useState(0);
   const [totalPayment, setTotalPayment] = useState(0);
+  const [monthlySalary, setMonthlySalary] = useState(180000);
 
   useEffect(() => {
     const principal = price - downPayment;
@@ -55,6 +56,12 @@ export default function EMICalculatorModal({
     }
     return `₹${amount.toLocaleString()}`;
   };
+
+  const monthlyInsurance = price * 0.012 / 12;
+  const monthlyMaintenance = price > 10000000 ? 55000 : 18000;
+  const ownershipCost = emi + monthlyInsurance + monthlyMaintenance;
+  const eligibleEmi = monthlySalary * 0.35;
+  const eligible = emi <= eligibleEmi;
 
   return (
     <AnimatePresence>
@@ -132,6 +139,18 @@ export default function EMICalculatorModal({
                     className="w-full px-4 py-2 bg-luxury-black border border-luxury-silver/20 rounded-md text-white focus:outline-none focus:border-luxury-metallic-red"
                   />
                 </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    Monthly Salary for Eligibility (₹)
+                  </label>
+                  <input
+                    type="number"
+                    value={monthlySalary}
+                    onChange={(e) => setMonthlySalary(Number(e.target.value))}
+                    className="w-full px-4 py-2 bg-luxury-black border border-luxury-silver/20 rounded-md text-white focus:outline-none focus:border-luxury-metallic-red"
+                  />
+                </div>
               </div>
 
               <motion.div
@@ -156,6 +175,20 @@ export default function EMICalculatorModal({
                     <p className="text-luxury-silver">Total Payment</p>
                     <p className="font-semibold">{formatCurrency(totalPayment)}</p>
                   </div>
+                  <div>
+                    <p className="text-luxury-silver">Monthly Ownership</p>
+                    <p className="font-semibold">{formatCurrency(ownershipCost)}</p>
+                  </div>
+                  <div>
+                    <p className="text-luxury-silver">Eligibility</p>
+                    <p className={`font-semibold ${eligible ? "text-green-400" : "text-yellow-300"}`}>
+                      {eligible ? "Comfortable" : "High EMI"}
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-4 rounded-md border border-luxury-silver/10 bg-luxury-dark-gray p-3 text-xs text-luxury-silver">
+                  Includes estimated insurance ({formatCurrency(monthlyInsurance)}/mo)
+                  and maintenance ({formatCurrency(monthlyMaintenance)}/mo).
                 </div>
               </motion.div>
 

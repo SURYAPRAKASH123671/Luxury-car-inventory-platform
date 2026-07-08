@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useParams, notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,20 +10,55 @@ import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import EMICalculatorModal from "@/components/EMICalculatorModal";
 import { carsData } from "@/data/cars";
-import { Phone, Mail, ChevronLeft, ChevronRight, Calculator } from "lucide-react";
+import { Phone, ChevronLeft, ChevronRight, Calculator, CalendarCheck, Printer, Share2 } from "lucide-react";
+import toast from "react-hot-toast";
+import { api } from "@/lib/api";
+import { getAlerts, getBookings, readJson, saveAlerts, saveBookings, storageKeys } from "@/lib/storage";
+import { AuthSession, Car } from "@/types";
 
 export default function CarDetailsPage() {
   const params = useParams();
-  const car = carsData.find((c) => c.id === params.id);
+  const carId = String(params.id);
+  const fallbackCar = carsData.find((c) => c.id === carId);
 
+  const [car, setCar] = useState<Car | undefined>(fallbackCar);
+  const [session, setSession] = useState<AuthSession | null>(null);
+  const [apiStatus, setApiStatus] = useState<"live" | "local">("local");
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [showEMIModal, setShowEMIModal] = useState(false);
+  const [recentCars, setRecentCars] = useState<string[]>([]);
+  const [bookingName, setBookingName] = useState("");
+  const [bookingPhone, setBookingPhone] = useState("");
+  const [bookingDate, setBookingDate] = useState("");
+  const [alertEmail, setAlertEmail] = useState("");
+  const [targetPrice, setTargetPrice] = useState(Math.round(fallbackCar?.price ? fallbackCar.price * 0.95 : 0));
+  const currentCarId = car?.id;
+
+  useEffect(() => {
+    setSession(readJson<AuthSession | null>(storageKeys.session, null));
+    api.car(carId)
+      .then((item) => {
+        setCar(item);
+        setTargetPrice(Math.round(item.price * 0.95));
+        setApiStatus("live");
+      })
+      .catch(() => setApiStatus("local"));
+  }, [carId]);
+
+  useEffect(() => {
+    if (!currentCarId) return;
+    const existing = readJson<string[]>(storageKeys.recent, []);
+    const next = [currentCarId, ...existing.filter((id) => id !== currentCarId)].slice(0, 4);
+    localStorage.setItem("cars15:recent", JSON.stringify(next));
+    setRecentCars(next.filter((id) => id !== currentCarId));
+  }, [currentCarId]);
 
   if (!car) {
     notFound();
   }
 
   const images = car.images || [car.image];
+
   const formatPrice = (price: number) => {
     if (price >= 10000000) {
       return `₹${(price / 10000000).toFixed(2)} Cr`;
@@ -40,6 +75,90 @@ export default function CarDetailsPage() {
   const prevImage = () => {
     setSelectedImageIndex((prev) => (prev - 1 + images.length) % images.length);
   };
+
+  const handleShare = async () => {
+    const url = window.location.href;
+    if (navigator.share) {
+      await navigator.share({
+        title: `${car.brand} ${car.model}`,
+        text: `Check this ${car.brand} ${car.model} on Cars 15`,
+        url,
+      });
+      return;
+    }
+    await navigator.clipboard.writeText(url);
+    toast.success("Car link copied");
+  };
+
+  const handleBooking = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!bookingDate) {
+      toast.error("Choose a preferred test-drive date");
+      return;
+    }
+    try {
+      const booking = await api.createBooking(
+        {
+          carId: car.id,
+          name: bookingName,
+          phone: bookingPhone,
+          preferredDate: bookingDate,
+        },
+        session?.token
+      );
+      saveBookings([booking, ...getBookings().filter((item) => item.id !== booking.id)]);
+      toast.success(`Test drive request sent to API for ${bookingDate}`);
+    } catch {
+      const bookings = getBookings();
+      saveBookings([
+        {
+          id: `BK-${Date.now()}`,
+          carId: car.id,
+          carName: `${car.brand} ${car.model}`,
+          name: bookingName,
+          phone: bookingPhone,
+          date: bookingDate,
+          status: "Requested",
+          createdAt: new Date().toISOString(),
+        },
+        ...bookings,
+      ]);
+      toast.success(`Test drive request saved locally for ${bookingDate || "your preferred date"}`);
+    }
+    setBookingName("");
+    setBookingPhone("");
+    setBookingDate("");
+  };
+
+  const handlePriceAlert = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    try {
+      const alert = await api.createAlert(
+        { carId: car.id, email: alertEmail, targetPrice },
+        session?.token
+      );
+      saveAlerts([alert, ...getAlerts().filter((item) => item.id !== alert.id)]);
+      toast.success("Price alert created in API");
+    } catch {
+      const alerts = getAlerts();
+      saveAlerts([
+        {
+          id: `PA-${Date.now()}`,
+          carId: car.id,
+          carName: `${car.brand} ${car.model}`,
+          email: alertEmail,
+          targetPrice,
+          createdAt: new Date().toISOString(),
+        },
+        ...alerts,
+      ]);
+      toast.success("Price alert saved locally");
+    }
+    setAlertEmail("");
+    setTargetPrice(Math.round(car.price * 0.95));
+  };
+
+  const recentlyViewedCars = carsData.filter((item) => recentCars.includes(item.id));
 
   return (
     <>
@@ -98,12 +217,14 @@ export default function CarDetailsPage() {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.3 }}
+                    className="absolute inset-0"
                   >
                     <Image
                       src={images[selectedImageIndex]}
                       alt={`${car.brand} ${car.model} - Image ${selectedImageIndex + 1}`}
                       fill
                       className="object-cover"
+                      sizes="(max-width: 1024px) 100vw, 50vw"
                       priority
                     />
                   </motion.div>
@@ -144,6 +265,7 @@ export default function CarDetailsPage() {
                         alt={`Thumbnail ${idx + 1}`}
                         fill
                         className="object-cover"
+                        sizes="(max-width: 768px) 25vw, 8rem"
                       />
                     </button>
                   ))}
@@ -157,6 +279,9 @@ export default function CarDetailsPage() {
                 {car.brand} {car.model}
               </h1>
               <p className="text-xl text-luxury-silver mb-6">{car.variant}</p>
+              <p className="mb-4 text-sm text-luxury-silver/80">
+                {apiStatus === "live" ? "Loaded from Spring Boot API" : "Using local demo data"}
+              </p>
 
               <div className="bg-luxury-dark-gray rounded-lg p-6 mb-6">
                 <p className="text-4xl font-bold text-luxury-metallic-red mb-2">
@@ -192,6 +317,22 @@ export default function CarDetailsPage() {
                   <p className="text-luxury-silver leading-relaxed">
                     {car.description}
                   </p>
+                </div>
+              )}
+
+              {car.features && (
+                <div className="mb-6">
+                  <h3 className="text-xl font-semibold mb-3">Highlights</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {car.features.map((feature) => (
+                      <span
+                        key={feature}
+                        className="rounded-full border border-luxury-silver/20 bg-luxury-dark-gray px-3 py-1 text-sm text-luxury-silver"
+                      >
+                        {feature}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               )}
 
@@ -239,29 +380,134 @@ export default function CarDetailsPage() {
                 </div>
               )}
 
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
                 <button
                   onClick={() => setShowEMIModal(true)}
-                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-luxury-metallic-red hover:bg-red-700 rounded-md font-semibold transition-colors"
+                  className="flex items-center justify-center gap-2 px-5 py-3 bg-luxury-metallic-red hover:bg-red-700 rounded-md font-semibold transition-colors"
                 >
                   <Calculator size={20} />
-                  Calculate EMI
+                  EMI
+                </button>
+                <button
+                  onClick={handleShare}
+                  className="flex items-center justify-center gap-2 px-5 py-3 bg-luxury-dark-gray hover:bg-luxury-black border border-luxury-silver/20 rounded-md font-semibold transition-colors"
+                >
+                  <Share2 size={20} />
+                  Share
+                </button>
+                <button
+                  onClick={() => window.print()}
+                  className="flex items-center justify-center gap-2 px-5 py-3 bg-luxury-dark-gray hover:bg-luxury-black border border-luxury-silver/20 rounded-md font-semibold transition-colors"
+                >
+                  <Printer size={20} />
+                  Spec Sheet
                 </button>
                 <a
                   href="tel:+919150357320"
-                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-luxury-dark-gray hover:bg-luxury-black border border-luxury-silver/20 rounded-md font-semibold transition-colors"
+                  className="flex items-center justify-center gap-2 px-5 py-3 bg-luxury-dark-gray hover:bg-luxury-black border border-luxury-silver/20 rounded-md font-semibold transition-colors"
                 >
                   <Phone size={20} />
-                  Call Now
-                </a>
-                <a
-                  href="mailto:suryakannan32123@gmail.com"
-                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-luxury-dark-gray hover:bg-luxury-black border border-luxury-silver/20 rounded-md font-semibold transition-colors"
-                >
-                  <Mail size={20} />
-                  Email Dealer
+                  Call
                 </a>
               </div>
+            </div>
+          </div>
+
+          <div className="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+            <form
+              onSubmit={handleBooking}
+              className="rounded-lg border border-luxury-silver/10 bg-luxury-dark-gray p-6"
+            >
+              <div className="mb-5 flex items-center gap-3">
+                <CalendarCheck className="text-luxury-metallic-red" />
+                <div>
+                  <h2 className="text-2xl font-semibold">Book a Test Drive</h2>
+                  <p className="text-sm text-luxury-silver">
+                    Sends to the Spring Boot booking API when available, with local fallback.
+                  </p>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                <input
+                  value={bookingName}
+                  onChange={(e) => setBookingName(e.target.value)}
+                  required
+                  placeholder="Name"
+                  className="rounded-md border border-luxury-silver/20 bg-luxury-black px-4 py-3 text-white focus:border-luxury-metallic-red focus:outline-none"
+                />
+                <input
+                  value={bookingPhone}
+                  onChange={(e) => setBookingPhone(e.target.value)}
+                  required
+                  placeholder="Phone"
+                  className="rounded-md border border-luxury-silver/20 bg-luxury-black px-4 py-3 text-white focus:border-luxury-metallic-red focus:outline-none"
+                />
+                <input
+                  type="date"
+                  value={bookingDate}
+                  onChange={(e) => setBookingDate(e.target.value)}
+                  required
+                  className="rounded-md border border-luxury-silver/20 bg-luxury-black px-4 py-3 text-white focus:border-luxury-metallic-red focus:outline-none"
+                />
+              </div>
+              <button className="mt-4 rounded-md bg-luxury-metallic-red px-6 py-3 font-semibold transition-colors hover:bg-red-700">
+                Confirm Test Drive
+              </button>
+            </form>
+
+            <div className="space-y-8">
+            <form
+              onSubmit={handlePriceAlert}
+              className="rounded-lg border border-luxury-silver/10 bg-luxury-dark-gray p-6"
+            >
+              <h2 className="mb-2 text-2xl font-semibold">Price Drop Alert</h2>
+              <p className="mb-4 text-sm text-luxury-silver">
+                Save a target price and simulate a manual notification workflow.
+              </p>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <input
+                  value={alertEmail}
+                  onChange={(e) => setAlertEmail(e.target.value)}
+                  required
+                  type="email"
+                  placeholder="Email"
+                  className="rounded-md border border-luxury-silver/20 bg-luxury-black px-4 py-3 text-white focus:border-luxury-metallic-red focus:outline-none"
+                />
+                <input
+                  value={targetPrice}
+                  onChange={(e) => setTargetPrice(Number(e.target.value))}
+                  required
+                  type="number"
+                  placeholder="Target price"
+                  className="rounded-md border border-luxury-silver/20 bg-luxury-black px-4 py-3 text-white focus:border-luxury-metallic-red focus:outline-none"
+                />
+              </div>
+              <button className="mt-4 rounded-md border border-luxury-metallic-red px-5 py-3 font-semibold text-luxury-metallic-red transition-colors hover:bg-luxury-metallic-red hover:text-white">
+                Create Alert
+              </button>
+            </form>
+
+            <div className="rounded-lg border border-luxury-silver/10 bg-luxury-dark-gray p-6">
+              <h2 className="mb-4 text-2xl font-semibold">Recently Viewed</h2>
+              {recentlyViewedCars.length === 0 ? (
+                <p className="text-luxury-silver">View more cars to build your shortlist.</p>
+              ) : (
+                <div className="space-y-3">
+                  {recentlyViewedCars.map((item) => (
+                    <Link
+                      key={item.id}
+                      href={`/cars/${item.id}`}
+                      className="flex items-center justify-between rounded-md border border-luxury-silver/10 bg-luxury-black p-3 hover:border-luxury-metallic-red"
+                    >
+                      <span>
+                        {item.brand} {item.model}
+                      </span>
+                      <span className="text-sm text-luxury-silver">{item.year}</span>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
             </div>
           </div>
 

@@ -4,16 +4,26 @@ import Image from "next/image";
 import Link from "next/link";
 import { Car } from "@/types";
 import { motion } from "framer-motion";
-import { Calculator, Eye } from "lucide-react";
+import { Calculator, Eye, Heart, Scale } from "lucide-react";
 import { useState } from "react";
 import EMICalculatorModal from "./EMICalculatorModal";
 
 interface CarCardProps {
   car: Car;
   onEMIClick?: (car: Car) => void;
+  isWishlisted?: boolean;
+  isCompared?: boolean;
+  onWishlistToggle?: (carId: string) => void;
+  onCompareToggle?: (carId: string) => void;
 }
 
-export default function CarCard({ car, onEMIClick }: CarCardProps) {
+export default function CarCard({
+  car,
+  isWishlisted = false,
+  isCompared = false,
+  onWishlistToggle,
+  onCompareToggle,
+}: CarCardProps) {
   const [showEMIModal, setShowEMIModal] = useState(false);
 
   const formatPrice = (price: number) => {
@@ -46,6 +56,30 @@ export default function CarCard({ car, onEMIClick }: CarCardProps) {
           <div className="absolute top-4 right-4 bg-luxury-metallic-red/90 text-white px-3 py-1 rounded-full text-sm font-medium">
             {car.year}
           </div>
+          <div className="absolute left-4 top-4 flex gap-2">
+            <button
+              onClick={() => onWishlistToggle?.(car.id)}
+              className={`rounded-full p-2 backdrop-blur transition-colors ${
+                isWishlisted
+                  ? "bg-luxury-metallic-red text-white"
+                  : "bg-black/55 text-white hover:bg-luxury-metallic-red"
+              }`}
+              aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
+            >
+              <Heart size={17} fill={isWishlisted ? "currentColor" : "none"} />
+            </button>
+            <button
+              onClick={() => onCompareToggle?.(car.id)}
+              className={`rounded-full p-2 backdrop-blur transition-colors ${
+                isCompared
+                  ? "bg-white text-luxury-black"
+                  : "bg-black/55 text-white hover:bg-white hover:text-luxury-black"
+              }`}
+              aria-label={isCompared ? "Remove from comparison" : "Compare car"}
+            >
+              <Scale size={17} />
+            </button>
+          </div>
         </div>
 
         <div className="p-6">
@@ -66,8 +100,16 @@ export default function CarCard({ car, onEMIClick }: CarCardProps) {
               <span className="ml-2">{car.fuelType}</span>
             </div>
             <div>
+              <span className="text-luxury-silver">Body:</span>
+              <span className="ml-2">{car.bodyType}</span>
+            </div>
+            <div>
               <span className="text-luxury-silver">Transmission:</span>
               <span className="ml-2">{car.transmission}</span>
+            </div>
+            <div>
+              <span className="text-luxury-silver">Location:</span>
+              <span className="ml-2">{car.location}</span>
             </div>
           </div>
 

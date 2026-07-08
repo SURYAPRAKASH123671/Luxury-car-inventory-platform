@@ -71,6 +71,18 @@ export default function Navbar() {
               About
             </Link>
             <Link
+              href="/admin"
+              className="text-luxury-silver hover:text-white transition-colors"
+            >
+              Admin
+            </Link>
+            <Link
+              href="/profile"
+              className="text-luxury-silver hover:text-white transition-colors"
+            >
+              Profile
+            </Link>
+            <Link
               href="/contact"
               className="text-luxury-silver hover:text-white transition-colors"
             >
@@ -131,6 +143,20 @@ export default function Navbar() {
                 className="block text-luxury-silver hover:text-white transition-colors"
               >
                 About
+              </Link>
+              <Link
+                href="/admin"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block text-luxury-silver hover:text-white transition-colors"
+              >
+                Admin
+              </Link>
+              <Link
+                href="/profile"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block text-luxury-silver hover:text-white transition-colors"
+              >
+                Profile
               </Link>
               <Link
                 href="/contact"

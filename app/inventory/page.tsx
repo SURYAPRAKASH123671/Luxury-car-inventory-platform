@@ -1,24 +1,81 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CarCard from "@/components/CarCard";
 import FilterBar from "@/components/FilterBar";
+import CompareTray from "@/components/CompareTray";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import { carsData } from "@/data/cars";
-import { FilterOptions, SortOption } from "@/types";
+import { api } from "@/lib/api";
+import { readJson, storageKeys } from "@/lib/storage";
+import { AuthSession, Car, FilterOptions, SortOption } from "@/types";
 
 export default function Inventory() {
+  const [cars, setCars] = useState<Car[]>(carsData);
   const [filters, setFilters] = useState<FilterOptions>({});
+  const [wishlistIds, setWishlistIds] = useState<string[]>([]);
+  const [compareIds, setCompareIds] = useState<string[]>([]);
+  const [session, setSession] = useState<AuthSession | null>(null);
+  const [apiStatus, setApiStatus] = useState<"live" | "local">("local");
   const [sortOption, setSortOption] = useState<SortOption>({
     field: "popularity",
     order: "desc",
   });
 
+  useEffect(() => {
+    const storedSession = readJson<AuthSession | null>(storageKeys.session, null);
+    setSession(storedSession);
+    setWishlistIds(readJson<string[]>(storageKeys.wishlist, []));
+    setCompareIds(readJson<string[]>(storageKeys.compare, []));
+
+    api.cars()
+      .then((items) => {
+        setCars(items);
+        setApiStatus("live");
+      })
+      .catch(() => {
+        setCars(carsData);
+        setApiStatus("local");
+      });
+
+    if (storedSession) {
+      api.wishlist(storedSession.token)
+        .then((items) => setWishlistIds(items.map((car) => car.id)))
+        .catch(() => undefined);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("cars15:wishlist", JSON.stringify(wishlistIds));
+  }, [wishlistIds]);
+
+  useEffect(() => {
+    localStorage.setItem("cars15:compare", JSON.stringify(compareIds));
+  }, [compareIds]);
+
   const filteredAndSortedCars = useMemo(() => {
-    let filtered = [...carsData];
+    let filtered = [...cars];
+
+    if (filters.search?.trim()) {
+      const query = filters.search.toLowerCase().trim();
+      filtered = filtered.filter((car) =>
+        [
+          car.brand,
+          car.model,
+          car.variant,
+          car.fuelType,
+          car.transmission,
+          car.bodyType,
+          car.location,
+        ]
+          .join(" ")
+          .toLowerCase()
+          .includes(query)
+      );
+    }
 
     // Apply filters
     if (filters.brand && filters.brand.length > 0) {
@@ -53,6 +110,12 @@ export default function Inventory() {
       );
     }
 
+    if (filters.bodyType && filters.bodyType.length > 0) {
+      filtered = filtered.filter((car) =>
+        filters.bodyType?.includes(car.bodyType)
+      );
+    }
+
     // Apply sorting
     filtered.sort((a, b) => {
       if (sortOption.field === "price") {
@@ -60,15 +123,45 @@ export default function Inventory() {
       } else if (sortOption.field === "year") {
         return sortOption.order === "asc" ? a.year - b.year : b.year - a.year;
       }
-      return 0; // popularity - keep original order
+      return b.views - a.views;
     });
 
     return filtered;
-  }, [filters, sortOption]);
+  }, [cars, filters, sortOption]);
 
   const resetFilters = () => {
     setFilters({});
   };
+
+  const toggleWishlist = async (carId: string) => {
+    if (session) {
+      try {
+        const next = wishlistIds.includes(carId)
+          ? await api.removeWishlist(session.token, carId)
+          : await api.addWishlist(session.token, carId);
+        setWishlistIds(next.map((car) => car.id));
+        return;
+      } catch {
+        setApiStatus("local");
+      }
+    }
+
+    setWishlistIds((current) =>
+      current.includes(carId)
+        ? current.filter((id) => id !== carId)
+        : [...current, carId]
+    );
+  };
+
+  const toggleCompare = (carId: string) => {
+    setCompareIds((current) => {
+      if (current.includes(carId)) return current.filter((id) => id !== carId);
+      if (current.length >= 3) return current;
+      return [...current, carId];
+    });
+  };
+
+  const comparedCars = cars.filter((car) => compareIds.includes(car.id));
 
   return (
     <main className="min-h-screen pt-20">
@@ -90,7 +183,23 @@ export default function Inventory() {
           <p className="text-luxury-silver mt-2">
             Showing {filteredAndSortedCars.length} car
             {filteredAndSortedCars.length !== 1 ? "s" : ""}
+            <span className="ml-2 text-sm text-luxury-silver/80">
+              · {apiStatus === "live" ? "Spring Boot API live" : "Local demo data"}
+            </span>
           </p>
+          <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
+            {[
+              ["Inventory", cars.length],
+              ["Saved", wishlistIds.length],
+              ["Compare", compareIds.length],
+              ["Bookings", cars.reduce((total, car) => total + car.bookings, 0)],
+            ].map(([label, value]) => (
+              <div key={String(label)} className="rounded-lg border border-luxury-silver/10 bg-luxury-dark-gray p-4">
+                <p className="text-2xl font-bold text-luxury-metallic-red">{value}</p>
+                <p className="text-sm text-luxury-silver">{label}</p>
+              </div>
+            ))}
+          </div>
         </motion.div>
 
         <FilterBar
@@ -99,6 +208,12 @@ export default function Inventory() {
           onFilterChange={setFilters}
           onSortChange={setSortOption}
           onReset={resetFilters}
+        />
+
+        <CompareTray
+          cars={comparedCars}
+          onRemove={toggleCompare}
+          onClear={() => setCompareIds([])}
         />
 
         {filteredAndSortedCars.length === 0 ? (
@@ -116,7 +231,14 @@ export default function Inventory() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
             {filteredAndSortedCars.map((car) => (
-              <CarCard key={car.id} car={car} />
+              <CarCard
+                key={car.id}
+                car={car}
+                isWishlisted={wishlistIds.includes(car.id)}
+                isCompared={compareIds.includes(car.id)}
+                onWishlistToggle={toggleWishlist}
+                onCompareToggle={toggleCompare}
+              />
             ))}
           </div>
         )}

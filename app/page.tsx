@@ -49,6 +49,7 @@ export default function Home() {
                 alt="Luxury Car"
                 fill
                 className="object-cover"
+                sizes="100vw"
                 priority={idx === 0}
               />
             </div>

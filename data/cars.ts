@@ -10,6 +10,10 @@ export const carsData: Car[] = [
     mileage: 25000,
     transmission: "Automatic",
     fuelType: "Petrol",
+    bodyType: "Sedan",
+    location: "Chennai",
+    views: 1840,
+    bookings: 18,
     price: 4500000,
     image: "https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=1200&q=80",
     images: [
@@ -18,6 +22,7 @@ export const carsData: Car[] = [
       "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?w=1200&q=80",
     ],
     description: "Premium BMW 3 Series with M Sport package. Single owner, meticulously maintained. Full service history available.",
+    features: ["M Sport package", "Sunroof", "Digital cockpit", "Reverse camera", "6 airbags"],
     specifications: {
       engine: "2.0L Turbo Petrol",
       power: "258 HP",
@@ -35,6 +40,10 @@ export const carsData: Car[] = [
     mileage: 35000,
     transmission: "Automatic",
     fuelType: "Diesel",
+    bodyType: "Sedan",
+    location: "Chennai",
+    views: 2210,
+    bookings: 24,
     price: 6500000,
     image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=1200&q=80",
     images: [
@@ -43,6 +52,7 @@ export const carsData: Car[] = [
       "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?w=1200&q=80",
     ],
     description: "Executive luxury sedan with premium features. Leather upholstery, panoramic sunroof, and advanced safety systems.",
+    features: ["Panoramic sunroof", "Leather seats", "Gesture control", "Ambient lighting", "Adaptive suspension"],
     specifications: {
       engine: "3.0L Turbo Diesel",
       power: "265 HP",
@@ -60,6 +70,10 @@ export const carsData: Car[] = [
     mileage: 18000,
     transmission: "Automatic",
     fuelType: "Petrol",
+    bodyType: "Sedan",
+    location: "Coimbatore",
+    views: 1650,
+    bookings: 15,
     price: 5500000,
     image: "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?w=1200&q=80",
     images: [
@@ -68,6 +82,7 @@ export const carsData: Car[] = [
       "https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=1200&q=80",
     ],
     description: "British elegance meets modern technology. Low mileage, certified pre-owned with extended warranty available.",
+    features: ["Meridian audio", "Memory seats", "Lane assist", "Touch Pro Duo", "Extended warranty"],
     specifications: {
       engine: "2.0L Turbo Petrol",
       power: "247 HP",
@@ -85,6 +100,10 @@ export const carsData: Car[] = [
     mileage: 22000,
     transmission: "Automatic",
     fuelType: "Petrol",
+    bodyType: "Hatchback",
+    location: "Bengaluru",
+    views: 1320,
+    bookings: 12,
     price: 3800000,
     image: "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?w=1200&q=80",
     images: [
@@ -92,6 +111,7 @@ export const carsData: Car[] = [
       "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=1200&q=80",
     ],
     description: "Iconic Mini Cooper S with John Cooper Works styling. Sporty and fun, perfect for city driving.",
+    features: ["JCW body kit", "Sport seats", "Harman Kardon audio", "Paddle shifters", "LED headlamps"],
     specifications: {
       engine: "2.0L Turbo Petrol",
       power: "192 HP",
@@ -109,6 +129,10 @@ export const carsData: Car[] = [
     mileage: 15000,
     transmission: "Automatic",
     fuelType: "Petrol",
+    bodyType: "Sedan",
+    location: "Hyderabad",
+    views: 3090,
+    bookings: 9,
     price: 150000000,
     image: "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?w=1200&q=80",
     images: [
@@ -117,6 +141,7 @@ export const carsData: Car[] = [
       "https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=1200&q=80",
     ],
     description: "The epitome of luxury. Ultra-low mileage Rolls-Royce Ghost with bespoke features and impeccable condition.",
+    features: ["Starlight headliner", "Bespoke cabin", "Rear-seat theatre", "Soft-close doors", "V12 refinement"],
     specifications: {
       engine: "6.6L Twin-Turbo V12",
       power: "563 HP",
@@ -128,4 +153,7 @@ export const carsData: Car[] = [
 ];
 
 export const brands = ["BMW", "Jaguar", "Mini", "Rolls-Royce"];
+export const bodyTypes = ["Sedan", "Hatchback"];
+export const fuelTypes = ["Petrol", "Diesel"];
+export const transmissions = ["Automatic"];
 

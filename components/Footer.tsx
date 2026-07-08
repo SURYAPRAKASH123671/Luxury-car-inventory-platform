@@ -56,6 +56,22 @@ export default function Footer() {
               </li>
               <li>
                 <Link
+                  href="/admin"
+                  className="text-luxury-silver hover:text-white transition-colors"
+                >
+                  Admin
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/profile"
+                  className="text-luxury-silver hover:text-white transition-colors"
+                >
+                  Profile
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/contact"
                   className="text-luxury-silver hover:text-white transition-colors"
                 >
