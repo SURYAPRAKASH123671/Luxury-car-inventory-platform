@@ -1,6 +1,23 @@
 import { Car } from "@/types";
 
-const img = (url: string) => url;
+const reliableCarImages = [
+  "https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=1200&q=80",
+  "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=1200&q=80",
+  "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?w=1200&q=80",
+];
+
+const img = (url: string) => {
+  if (!url.includes("upload.wikimedia.org")) return url;
+
+  // Most of the old Wikimedia filenames were missing and its arbitrary 1200px
+  // thumbnails now return HTTP 400. Use stable catalog artwork for those URLs.
+  const imageIndex = Array.from(url).reduce(
+    (sum, character) => sum + character.charCodeAt(0),
+    0
+  ) % reliableCarImages.length;
+
+  return reliableCarImages[imageIndex];
+};
 
 const car = (
   id: string,
