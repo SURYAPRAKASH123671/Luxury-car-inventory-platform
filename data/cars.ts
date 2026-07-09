@@ -1,22 +1,9 @@
 import { Car } from "@/types";
 
-const reliableCarImages = [
-  "https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=1200&q=80",
-  "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=1200&q=80",
-  "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?w=1200&q=80",
-];
-
 const img = (url: string) => {
-  if (!url.includes("upload.wikimedia.org")) return url;
-
-  // Most of the old Wikimedia filenames were missing and its arbitrary 1200px
-  // thumbnails now return HTTP 400. Use stable catalog artwork for those URLs.
-  const imageIndex = Array.from(url).reduce(
-    (sum, character) => sum + character.charCodeAt(0),
-    0
-  ) % reliableCarImages.length;
-
-  return reliableCarImages[imageIndex];
+  // Wikimedia currently accepts 1280px thumbnails but rejects the old 1200px
+  // variants. Preserve each model-specific photo and request a supported size.
+  return url.replace(/\/1200px-/, "/1280px-");
 };
 
 const car = (
